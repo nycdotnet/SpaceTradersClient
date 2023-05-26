@@ -35,5 +35,19 @@ namespace SpaceTradersClient
             }
             return responseObject.Data;
         }
+
+        public async Task<OneOf<Waypoint, None>> GetWaypoint(Entity System, Entity Waypoint)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Get, $"systems/{System.Symbol}/waypoints/{Waypoint.Symbol}");
+            using var response = await httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
+            response.EnsureSuccessStatusCode();
+            using var stream = await response.Content.ReadAsStreamAsync();
+            var responseObject = await JsonSerializer.DeserializeAsync<GetWaypointResponse>(stream, jsonOptions);
+            if (responseObject?.Data is null)
+            {
+                return new None();
+            }
+            return responseObject.Data;
+        }
     }
 }

@@ -3,7 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33712.159
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceTradersClient", "SpaceTradersClient\SpaceTradersClient.csproj", "{6F356C2A-AA90-429D-A7C3-4C604F0C03CF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpaceTradersClient", "SpaceTradersClient\SpaceTradersClient.csproj", "{6F356C2A-AA90-429D-A7C3-4C604F0C03CF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D511E714-1214-4CA9-B7C9-269212D9A3B4}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

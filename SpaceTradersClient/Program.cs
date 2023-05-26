@@ -12,16 +12,22 @@ namespace SpaceTradersClient
 
             var stc = new SpaceTradersClient(config, httpClient);
 
-            var agent = await stc.MyAgent();
-
-            agent.Switch(agent => {
-                Console.WriteLine($"My agent has {agent.Credits} credits and is named {agent.Symbol}.");
-            },
-            _ => {
+            if (!(await stc.MyAgent()).TryPickT0(out var agent, out _))
+            {
                 Console.WriteLine("Could not get an agent.");
-            });
-        }
+                return;
+            }
 
+            Console.WriteLine($"My agent has {agent.Credits} credits and is named {agent.Symbol}.");
+            Console.WriteLine($"My agent's HQ is at waypoint {agent.Headquarters}.");
+
+            if (!(await stc.GetWaypoint(agent.HeadquartersSystem(), agent.HeadquartersWaypoint())).TryPickT0(out var waypoint, out _)) {
+                Console.WriteLine("Could not get waypoint data.");
+                return;
+            }
+
+            Console.WriteLine($"My agent's HQ is on a {waypoint.Type}");
+        }
 
         private static Config GetConfig()
         {
