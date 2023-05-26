@@ -49,5 +49,20 @@ namespace SpaceTradersClient
             }
             return responseObject.Data;
         }
+
+        public async Task<OneOf<Contract[], None>> MyContracts()
+        {
+            var request = new HttpRequestMessage(HttpMethod.Get, "my/contracts");
+            using var response = await httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
+            response.EnsureSuccessStatusCode();
+            using var stream = await response.Content.ReadAsStreamAsync();
+            var responseObject = await JsonSerializer.DeserializeAsync<MyContractsResponse>(stream, jsonOptions);
+            if (responseObject?.Data is null)
+            {
+                return new None();
+            }
+            // TODO: implement pagination
+            return responseObject.Data;
+        }
     }
 }

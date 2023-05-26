@@ -27,6 +27,16 @@ namespace SpaceTradersClient
             }
 
             Console.WriteLine($"My agent's HQ is on a {waypoint.Type}");
+
+            if (!(await stc.MyContracts()).TryPickT0(out var contracts, out _))
+            {
+                Console.WriteLine("Could not get contract data.");
+                return;
+            }
+
+            Console.WriteLine($"My agent has {contracts.Length} contract(s)");
+
+
         }
 
         private static Config GetConfig()
