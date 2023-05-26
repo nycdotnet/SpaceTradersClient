@@ -38,4 +38,18 @@
         public Contract[] Data { get; set; }
         public ListMeta Meta { get; set; }
     }
+    
+    public record AcceptContractResponse
+    {
+        public AcceptContractData Data { get; set; }
+        public ApiError Error { get; set; }
+    }
+
+    public record AcceptContractData
+    {
+        public Contract Contract { get; set; }
+        public Agent Agent { get; set; }
+    }
+
+    public class AlreadyAccepted { }
 }

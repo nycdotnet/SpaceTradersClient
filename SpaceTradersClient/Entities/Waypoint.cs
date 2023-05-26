@@ -37,4 +37,9 @@
     {
         public Waypoint Data { get; set; }
     }
+
+    public record WaypointsInSystemResponse
+    {
+        public Waypoint[] Data { get; set; }
+    }
 }

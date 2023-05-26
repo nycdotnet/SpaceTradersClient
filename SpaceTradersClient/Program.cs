@@ -36,6 +36,17 @@ namespace SpaceTradersClient
 
             Console.WriteLine($"My agent has {contracts.Length} contract(s)");
 
+            if ((await stc.AcceptContract(contracts[0].Id)).TryPickT0(out var acceptContract, out var alreadyAccepted))
+            {
+                Console.WriteLine($"Accepted contract {acceptContract.Contract.Id}");
+            }
+            else
+            {
+                Console.WriteLine("This contract was already accepted.");
+            }
+
+            var wayPointsInSystem = await stc.WaypointsInSystem(agent.HeadquartersSystem());
+            
 
         }
 
