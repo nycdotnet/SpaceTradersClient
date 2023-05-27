@@ -5,19 +5,19 @@
         public string AccountId { get; set; }
         public string Symbol { get; set; }
         public string Headquarters { get; set; }
-        public Entity? HeadquartersSystem()
+        public SymbolEntity? HeadquartersSystem()
         {
             if (Waypoint.TryParseWaypoint(Headquarters, out _, out var system, out _))
             {
-                return new Entity { Symbol = system };
+                return new SymbolEntity { Symbol = system };
             }
             return null;
         }
-        public Entity? HeadquartersWaypoint()
+        public SymbolEntity? HeadquartersWaypoint()
         {
             if (Waypoint.TryParseWaypoint(Headquarters, out _, out var _, out var waypoint))
             {
-                return new Entity { Symbol = waypoint };
+                return new SymbolEntity { Symbol = waypoint };
             }
             return null;
         }

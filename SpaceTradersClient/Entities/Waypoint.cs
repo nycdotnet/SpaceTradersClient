@@ -1,15 +1,15 @@
 ﻿namespace SpaceTradersClient.Entities
 {
-    public record Waypoint : Entity
+    public record Waypoint : SymbolEntity
     {
         public string SystemSymbol { get; set; }
         public string Type { get; set; }
         public long X { get; set; }
         public long Y { get; set; }
-        public Entity[] Orbitals { get; set; }
+        public SymbolEntity[] Orbitals { get; set; }
         public Trait[] Traits { get; set; }
         public Chart Chart { get; set; }
-        public Entity Faction { get; set; }
+        public SymbolEntity Faction { get; set; }
 
         // todo: learn how to make a null hint where the out vars will be null only if it returns false
         public static bool TryParseWaypoint(string Value, out string? Sector, out string? System, out string? Waypoint)

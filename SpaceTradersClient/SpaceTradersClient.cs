@@ -36,7 +36,7 @@ namespace SpaceTradersClient
             return responseObject.Data;
         }
 
-        public async Task<OneOf<Waypoint, None>> GetWaypoint(Entity System, Entity Waypoint)
+        public async Task<OneOf<Waypoint, None>> GetWaypoint(SymbolEntity System, SymbolEntity Waypoint)
         {
             var request = new HttpRequestMessage(HttpMethod.Get, $"systems/{System.Symbol}/waypoints/{Waypoint.Symbol}");
             using var response = await httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
@@ -50,14 +50,27 @@ namespace SpaceTradersClient
             return responseObject.Data;
         }
 
-        public async Task<OneOf<Waypoint[], None>> WaypointsInSystem(Entity System)
+        public async Task<OneOf<Waypoint[], None>> WaypointsInSystem(SymbolEntity System)
         {
             var request = new HttpRequestMessage(HttpMethod.Get, $"systems/{System.Symbol}/waypoints");
             using var response = await httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
             response.EnsureSuccessStatusCode();
-            //var dbg = await response.Content.ReadAsStringAsync();
             using var stream = await response.Content.ReadAsStreamAsync();
             var responseObject = await JsonSerializer.DeserializeAsync<WaypointsInSystemResponse>(stream, jsonOptions);
+            if (responseObject?.Data is null)
+            {
+                return new None();
+            }
+            return responseObject.Data;
+        }
+
+        public async Task<OneOf<ShipyardInfo, None>> GetShipTypesInShipyard(string SystemSymbol, string WaypointSymbol)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Get, $"systems/{SystemSymbol}/waypoints/{WaypointSymbol}/shipyard");
+            using var response = await httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
+            response.EnsureSuccessStatusCode();
+            using var stream = await response.Content.ReadAsStreamAsync();
+            var responseObject = await JsonSerializer.DeserializeAsync<ShipyardResponse>(stream, jsonOptions);
             if (responseObject?.Data is null)
             {
                 return new None();

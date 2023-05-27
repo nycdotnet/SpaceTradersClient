@@ -46,7 +46,35 @@ namespace SpaceTradersClient
             }
 
             var wayPointsInSystem = await stc.WaypointsInSystem(agent.HeadquartersSystem());
-            
+
+            var shipyardInSystem = wayPointsInSystem.AsT0.Where(wp => wp.Traits.Any(t => t.Symbol == "SHIPYARD")).FirstOrDefault();
+            if (shipyardInSystem is null)
+            {
+                Console.WriteLine("no shipyard found");
+                return;
+            }
+            else
+            {
+                Console.WriteLine($"There is a shipyard in this system at waypoint ${shipyardInSystem.Symbol} which is a {shipyardInSystem.Type}");
+            }
+
+            var shipsInShipyard = await stc.GetShipTypesInShipyard(shipyardInSystem.SystemSymbol, shipyardInSystem.Symbol);
+
+            if (shipsInShipyard.TryPickT0(out var shipyardInfo, out var _))
+            {
+                Console.WriteLine($"Found the following kinds of ships: { string.Join(", ", shipyardInfo.ShipTypes.Select(st => st.Type)) }.");
+                if (shipyardInfo.ShipTypes.Any(st => st.Type == "SHIP_MINING_DRONE"))
+                {
+                    Console.WriteLine("OK there is a mining drone!");
+                }
+                else
+                {
+                    Console.WriteLine("No mining drone!");
+                    return;
+                }
+            }
+
+            // TODO: add ship purchasing code.
 
         }
 
