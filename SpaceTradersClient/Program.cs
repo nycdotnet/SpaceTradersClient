@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using SpaceTradersApiClient.Api;
 using System.Net.Http.Headers;
 
 namespace SpaceTradersClient
@@ -9,6 +10,25 @@ namespace SpaceTradersClient
         {
             var config = GetConfig();
             var httpClient = GetHttpClient(config);
+
+            //SpaceTradersApiClient.Client.Configuration.Def
+            var apiConfig = new SpaceTradersApiClient.Client.Configuration();
+            apiConfig.ApiKeyPrefix["Authorization"] = "Bearer";
+            //apiConfig.ApiKey["Authorization"] = config.ApiKey;
+            apiConfig.AccessToken = config.ApiKey;
+
+            var agentsApi = new AgentsApi("https://api.spacetraders.io/v2/") {
+                Configuration = apiConfig
+            };
+
+            var agentInfo = await agentsApi.GetMyAgentAsync();
+            Console.WriteLine($"Agent info: {agentInfo.Data.AccountId}, credits: {agentInfo.Data.Credits}");
+
+
+            //agentsApi.Configuration
+            //var agentInfo = agentsApi.Configuration
+
+
 
             var stc = new SpaceTradersClient(config, httpClient);
 
